@@ -1,0 +1,50 @@
+{
+  "name": "neware-posts",
+  "version": "0.0.1",
+  "description": "posts service for neware",
+  "main": "index.js",
+  "engines": {
+    "node": "8.2.1"
+  },
+  "scripts": {
+    "start": "babel-node ./index.js --presets es2015,stage-0",
+    "dev": "nodemon -w ./src --exec \"babel-node ./index.js --presets es2015,stage-0\"",
+    "deploy": "now -p -e GREETING=@greeting -e LOGS_SECRET=@logs_secret -e FIREBASE_ID=@firebase_id -e FIREBASE_EMAIL=@firebase_email -e FIREBASE_KEY=@firebase_key -e FIREBASE_URL=@firebase_url",
+    "lint": "eslint ./**/**.js",
+    "prettier": "prettier --single-quote --no-semi --write  \"src/**/*.js\"",
+    "precommit": "lint-staged",
+    "test": "tape -r babel-register './**/*.spec.js' | tap-spec",
+    "test-watch": "tape-watch -r babel-register ./**/*.spec.js --silent | tap-spec"
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "prettier --single-quote --no-semi --write",
+      "git add"
+    ]
+  },
+  "author": "hightops",
+  "license": "ISC",
+  "dependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-core": "^6.22.1",
+    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "babel-register": "^6.22.0",
+    "express": "^4.15.2",
+    "firebase-admin": "^4.1.0",
+    "now-logs": "0.0.7"
+  },
+  "devDependencies": {
+    "blue-tape": "^1.0.0",
+    "dotenv": "^4.0.0",
+    "eslint": "^3.17.1",
+    "husky": "^0.14.3",
+    "lint-staged": "^4.0.4",
+    "nodemon": "^1.11.0",
+    "prettier": "^1.5.3",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.6.3",
+    "tape-run": "^3.0.0",
+    "tape-watch": "^2.3.0"
+  }
+}

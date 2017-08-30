@@ -1,0 +1,30 @@
+# git config --global core.excludesfile '~/.gitignore'
+# http://stackoverflow.com/a/7335487
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+.DS_Store
+
+node_modules
+
+# swap
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+
+# session
+Session.vim
+
+# temporary
+.netrwhist
+*~
+
+#swp
+*.swp
+*.swo
+
+# auto-generated tag files
+tags
+
+.env
