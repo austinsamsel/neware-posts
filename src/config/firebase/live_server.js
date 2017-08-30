@@ -12,7 +12,10 @@ admin.initializeApp({
   credential: admin.credential.cert({
     projectId: process.env.FIREBASE_ID,
     clientEmail: process.env.FIREBASE_EMAIL,
-    privateKey: fb_key3
+    privateKey: fb_key3,
+    databaseAuthVariableOverride: {
+      uid: 'neware-posts'
+    }
   }),
   databaseURL: process.env.FIREBASE_URL
 })

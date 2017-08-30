@@ -32,7 +32,7 @@
     "babel-register": "^6.22.0",
     "body-parser": "^1.17.2",
     "express": "^4.15.2",
-    "firebase-admin": "^4.1.0",
+    "firebase-admin": "^5.2.1",
     "now-logs": "0.0.7"
   },
   "devDependencies": {
