@@ -9,7 +9,7 @@
   "scripts": {
     "start": "babel-node ./index.js --presets es2015,stage-0",
     "dev": "nodemon -w ./src --exec \"babel-node ./index.js --presets es2015,stage-0\"",
-    "deploy": "now -p -e GREETING=@greeting -e LOGS_SECRET=@logs_secret -e API_KEY=@api_key -e AUTH_DOMAIN=@auth_domain -e DATABASE_URL=@database_url -e STORAGE_BUCKET=@storage_bucket",
+    "deploy": "now -p -e NEP_LOGS_SECRET=@nep_logs_secret -e NEP_API_KEY=@nep_api_key -e NEP_AUTH_DOMAIN=@nep_auth_domain -e NEP_DATABASE_URL=@nep_database_url -e NEP_STORAGE_BUCKET=@nep_storage_bucket",
     "lint": "eslint ./**/**.js",
     "prettier": "prettier --single-quote --no-semi --write  \"src/**/*.js\"",
     "precommit": "lint-staged",

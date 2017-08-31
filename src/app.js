@@ -1,3 +1,4 @@
+require('now-logs')(process.env.NEP_LOGS_SECRET)
 import firebase from 'firebase'
 const express = require('express')
 const app = express()
