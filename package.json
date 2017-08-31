@@ -9,7 +9,7 @@
   "scripts": {
     "start": "babel-node ./index.js --presets es2015,stage-0",
     "dev": "nodemon -w ./src --exec \"babel-node ./index.js --presets es2015,stage-0\"",
-    "deploy": "now -p -e GREETING=@greeting -e LOGS_SECRET=@logs_secret -e FIREBASE_ID=@firebase_id -e FIREBASE_EMAIL=@firebase_email -e FIREBASE_KEY=@firebase_key -e FIREBASE_URL=@firebase_url",
+    "deploy": "now -p -e GREETING=@greeting -e LOGS_SECRET=@logs_secret -e API_KEY=@api_key -e AUTH_DOMAIN=@auth_domain -e DATABASE_URL=@database_url -e STORAGE_BUCKET=@storage_bucket",
     "lint": "eslint ./**/**.js",
     "prettier": "prettier --single-quote --no-semi --write  \"src/**/*.js\"",
     "precommit": "lint-staged",
@@ -32,7 +32,7 @@
     "babel-register": "^6.22.0",
     "body-parser": "^1.17.2",
     "express": "^4.15.2",
-    "firebase-admin": "^5.2.1",
+    "firebase": "^4.3.0",
     "now-logs": "0.0.7"
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-import admin from 'firebase-admin'
+import firebase from 'firebase'
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
@@ -12,64 +12,56 @@ app.use(bodyParser.json())
 
 const port = process.env.PORT || 8080
 
-// ROUTES FOR OUR API
-// =============================================================================
+//ROUTES
 const router = express.Router()
 
-// middleware to use for all requests
-router.use(function(req, res, next) {
+router.use((req, res, next) => {
   // do logging
   console.log('Something is happening.')
-  next() // make sure we go to the next routes and don't stop here
+  next()
 })
 
-// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
-router.get('/', function(req, res) {
-  res.json({ message: 'hooray! welcome to our api!' })
+router.get('/', (req, res) => {
+  res.json({ message: 'welcome to the api!' })
 })
 
-// more routes for our API will happen here
-
-// on routes that end in /bears
-// ----------------------------------------------------
 router
   .route('/posts')
-  // create a bear (accessed at POST http://localhost:8080/api/bears)
-  .post(function(req, res) {
+  .post((req, res) => {
     const channel = req.query.channel
     const encrypted = req.query.encrypted
     const plaintext = req.query.plaintext
     const text = req.query.text
 
-    // TODO: should be "set" rather than push. or have a check that 1 does not already exist.
-    admin.database().ref('/notes/' + channel).set({
+    firebase.database().ref('/notes/' + channel).set({
       key: {
-        createdAt: admin.database.ServerValue.TIMESTAMP,
+        createdAt: firebase.database.ServerValue.TIMESTAMP,
         encrypted: req.query.encrypted,
         plaintext: req.query.plaintext,
         text: req.query.text
       }
     })
-    const db = admin.database()
-    return db.ref('/notes/' + channel).once('value').then(function(snapshot) {
-      res.json({ data: snapshot.val() })
-      console.log(snapshot.val())
-    })
+    const db = firebase.database()
+    db.ref('/notes/' + channel).once('value').then(
+      snapshot => {
+        res.json({ data: snapshot.val() })
+      },
+      error => {
+        console.error(error)
+      }
+    )
   })
-  .get(function(req, res) {
+  .get((req, res) => {
     const channel = req.query.channel
-    const db = admin.database()
-    return db.ref('/notes/' + channel).once('value').then(function(snapshot) {
+    const db = firebase.database()
+    return db.ref('/notes/' + channel).once('value').then(snapshot => {
       res.json({ data: snapshot.val() })
-      console.log(snapshot.val())
     })
   })
 
-// REGISTER OUR ROUTES -------------------------------
-// all of our routes will be prefixed with /api
+// REGISTER OUR ROUTES
 app.use('/api', router)
 
 // START THE SERVER
-// =============================================================================
 app.listen(port)
 console.log('Magic happens on port ' + port)
