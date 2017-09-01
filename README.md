@@ -2,7 +2,7 @@
 
 ## ship code
 
-1. Run `now` to ship.
+1. Run `yarn deploy` to ship.
 
 2. after testing deploy, set the alias to neware-posts like:
 
