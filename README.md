@@ -2,6 +2,8 @@
 
 ## ship code
 
+0. https://zeit.co/blog/easy-aliasing (optional)
+
 1. Run `yarn deploy` to ship.
 
 2. after testing deploy, set the alias to neware-posts like:
