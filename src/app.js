@@ -33,20 +33,21 @@ router
   .route('/posts')
   .post((req, res) => {
     console.log('POST')
+    console.log(req.body)
     firebase
       .database()
-      .ref('/notes/' + req.query.channel)
+      .ref('/notes/' + req.body.channel)
       .set({
         key: {
           createdAt: firebase.database.ServerValue.TIMESTAMP,
-          encrypted: req.query.encrypted === 'true' ? true : false,
-          plaintext: req.query.plaintext,
-          text: req.query.text
+          encrypted: req.body.encrypted,
+          plaintext: req.body.plaintext,
+          text: req.body.text
         }
       })
       .then(function() {
         const db = firebase.database()
-        db.ref('/notes/' + req.query.channel).once('value').then(
+        db.ref('/notes/' + req.body.channel).once('value').then(
           snapshot => {
             res.json({ data: snapshot.val() })
           },
