@@ -3,9 +3,6 @@
   "version": "0.0.1",
   "description": "posts service for neware",
   "main": "index.js",
-  "engines": {
-    "node": "8.2.1"
-  },
   "scripts": {
     "start": "babel-node ./index.js --presets es2015,stage-0",
     "dev": "nodemon -w ./src --exec \"babel-node ./index.js --presets es2015,stage-0\"",
