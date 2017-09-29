@@ -1,76 +1,34 @@
-import firebase from 'firebase'
+//express
 const express = require('express')
 const cors = require('cors')
 const app = express()
 const bodyParser = require('body-parser')
 
-//firebase
+//configuration
 require('dotenv').config() // helps parse config
 require('./config/firebase/live_server') // firebase config
 
+// logs
 require('now-logs')(process.env.NEP_LOGS_SECRET)
 
+// routes
+import api_routes from './routes/api.js'
+import root_route from './routes/root.js'
+
+// set up app
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 const port = process.env.PORT || 8080
 
-//ROUTES
+//set up routes
 const router = express.Router()
-
-router.use((req, res, next) => {
-  // do logging
-  console.log('Something is happening.', req.query)
-  next()
-})
-
-router.get('/', (req, res) => {
-  res.json({ message: 'welcome to the api!' })
-})
-
-router
-  .route('/posts')
-  .post((req, res) => {
-    console.log('POST')
-    const encode_channel = encodeURIComponent(req.body.channel)
-    firebase
-      .database()
-      .ref('/notes/' + encode_channel)
-      .set({
-        key: {
-          createdAt: firebase.database.ServerValue.TIMESTAMP,
-          encrypted: req.body.encrypted,
-          plaintext: req.body.plaintext,
-          text: req.body.text
-        }
-      })
-      .then(function() {
-        const db = firebase.database()
-        db.ref('/notes/' + encode_channel).once('value').then(
-          snapshot => {
-            res.json({ data: snapshot.val() })
-          },
-          error => {
-            console.error(error)
-          }
-        )
-      })
-  })
-  .get((req, res) => {
-    console.log('GET')
-    const encode_channel = encodeURIComponent(req.query.channel)
-    const db = firebase.database()
-    return db
-      .ref('/notes/' + encodeURIComponent(encode_channel))
-      .once('value')
-      .then(snapshot => {
-        res.json({ data: snapshot.val() })
-      })
-  })
+root_route(app, router)
+api_routes(app, router)
 
 // REGISTER OUR ROUTES
-app.use('/api', router)
+app.use('/', router)
 
 // START THE SERVER
 app.listen(port)
