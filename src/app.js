@@ -33,10 +33,10 @@ router
   .route('/posts')
   .post((req, res) => {
     console.log('POST')
-    console.log(req.body)
+    const encode_channel = encodeURIComponent(req.body.channel)
     firebase
       .database()
-      .ref('/notes/' + req.body.channel)
+      .ref('/notes/' + encode_channel)
       .set({
         key: {
           createdAt: firebase.database.ServerValue.TIMESTAMP,
@@ -47,7 +47,7 @@ router
       })
       .then(function() {
         const db = firebase.database()
-        db.ref('/notes/' + req.body.channel).once('value').then(
+        db.ref('/notes/' + encode_channel).once('value').then(
           snapshot => {
             res.json({ data: snapshot.val() })
           },
@@ -59,11 +59,14 @@ router
   })
   .get((req, res) => {
     console.log('GET')
-    const channel = req.query.channel
+    const encode_channel = encodeURIComponent(req.query.channel)
     const db = firebase.database()
-    return db.ref('/notes/' + channel).once('value').then(snapshot => {
-      res.json({ data: snapshot.val() })
-    })
+    return db
+      .ref('/notes/' + encodeURIComponent(encode_channel))
+      .once('value')
+      .then(snapshot => {
+        res.json({ data: snapshot.val() })
+      })
   })
 
 // REGISTER OUR ROUTES
